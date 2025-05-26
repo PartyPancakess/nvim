@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     spec = {
       { import = "partypancakes.plugins" },
-      { import = "partypancakes.plugins.temps" },
+      -- { import = "partypancakes.plugins.temps" },
     },
     change_detection = { notify = false }
   }, {
