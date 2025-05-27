@@ -9,6 +9,7 @@ return {
                 -- hide = {
                 --     statusline = false,
                 -- },
+                shortcut_type = 'number',
                 config = {
                     header = logo,
                     shortcut = {
@@ -21,7 +22,7 @@ return {
                             key = 'f',
                         },
                         { action = "ene | startinsert", desc = "New File", icon = " ", icon_hl = '@variable', group = 'Label', key = "n" },
-                        { action = 'lua require("persistence").load()', desc = "Restore Session", icon = " ", icon_hl = '@variable', group = 'Label', key = "s" },
+                        { action = 'lua require("persistence").load()', desc = "Restore Session", icon = " ", icon_hl = '@variable', group = 'Label', key = "r" },
                     },
                     footer = {},
                 },

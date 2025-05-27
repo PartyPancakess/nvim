@@ -92,7 +92,7 @@ autocmd('LspAttach', {
         map('[d', vim.diagnostic.goto_next, 'Next Diagnostic')
         map(']d', vim.diagnostic.goto_prev, 'Previous Diagnostic')
 
-        map('<C-h>', vim.lsp.buf.signature_help, 'Signiture Help', 'i')
+        map('<C-h>', vim.lsp.buf.signature_help, 'Signature Help', 'i')
 
 
         local function client_supports_method(client, method, bufnr)

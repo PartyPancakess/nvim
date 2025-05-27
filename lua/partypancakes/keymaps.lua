@@ -56,7 +56,13 @@ vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = 'Quickfix list nex
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = 'Quickfix list prev. location' })
 
 -- Replacte the word under cursor and other occurances
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = 'Replace word under cursor' })
+
+
+vim.keymap.set("n", "<leader>Tn", function()
+    vim.opt.relativenumber = not vim.opt.relativenumber:get()
+end, { desc = 'Toggle relative line numbers' })
 
 
 -- Useful Templates For Specific Languages -----------
