@@ -117,24 +117,27 @@ return {
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        priority = 1000,
         config = function()
             require("catppuccin").setup(theme_opts.catppuccin)
+            SetTheme()
         end
-    }, {
-    "ellisonleao/gruvbox.nvim",
-    name = "gruvbox",
-    config = function() require("gruvbox").setup(theme_opts.gruvbox) end
-}, {
-    "folke/tokyonight.nvim",
-    config = function()
-        require("tokyonight").setup(theme_opts.tokyonight)
-    end
-}, {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    config = function()
-        require('rose-pine').setup(theme_opts["rose-pine"])
-    end
-}
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        name = "gruvbox",
+        config = function() require("gruvbox").setup(theme_opts.gruvbox) end
+    },
+    {
+        "folke/tokyonight.nvim",
+        config = function()
+            require("tokyonight").setup(theme_opts.tokyonight)
+        end
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            require('rose-pine').setup(theme_opts["rose-pine"])
+        end
+    }
 }

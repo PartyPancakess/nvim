@@ -81,3 +81,8 @@ vim.keymap.set(
     "oif err != nil {<CR>}<Esc>O.logger.Error(\"error\", \"error\", err)<Esc>F.;i",
     { desc = 'Log Error' }
 )
+
+
+-- Random Useful Stuff ----------------------------
+
+vim.keymap.set('n', '<leader><leader>', "<cmd>w<CR>", { desc = 'Save file' })

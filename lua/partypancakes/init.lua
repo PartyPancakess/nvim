@@ -2,16 +2,11 @@ require("partypancakes.options")
 require("partypancakes.keymaps")
 require("partypancakes.lazy")
 
-
 local augroup = vim.api.nvim_create_augroup
 local PartyPancakesGroup = augroup('PartyPancakes', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
-
-function R(name)
-    require("plenary.reload").reload_module(name)
-end
 
 autocmd('TextYankPost', {
     desc = 'Highlight when yanking (copying) text',
@@ -141,22 +136,5 @@ autocmd('LspAttach', {
           end, 'Toggle Inlay Hints')
         end
           
-    end
-})
-
-
-autocmd('BufEnter', {
-    group = PartyPancakesGroup,
-    callback = function()
-      SetTheme(0)
-      -- Change theme based on file type
-      --  if vim.bo.filetype == "zig" then
-      --     vim.cmd.colorscheme("tokyonight-night")
-      --  else
-      --     vim.cmd.colorscheme("catppuccin-macchiato")
-      --  end
-
-      -- Set format on save
-      vim.g.format_on_save_enabled = false
     end
 })

@@ -41,6 +41,7 @@ return {
             vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
             -- Search Only Git Files
             vim.keymap.set('n', '<C-g>', builtin.git_files, { desc = 'Find Git Files' })
+            vim.keymap.set('n', '<leader>fe', builtin.buffers, { desc = 'Find existing buffers' })
 
 
             -- !! FIND IN FILES (grep) !! --
@@ -74,7 +75,6 @@ return {
             -- vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find Resume old search' })
             -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find Select Telescope' })
             vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = 'Find Recent Files by name' })
-            -- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
             -- vim.keymap.set('n', '<leader>f/', function()
             --   builtin.live_grep {
             --     grep_open_files = true,
