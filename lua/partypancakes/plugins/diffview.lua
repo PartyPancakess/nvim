@@ -18,12 +18,12 @@ return {
         })
 
         -- Close current tab
-        vim.keymap.set("n", "<leader>Dc", function()
+        vim.keymap.set("n", "<leader>Gc", function()
             vim.cmd("tabclose")
         end, { desc = "Tab Close" })
 
         -- Toggle Diffview: open if closed, close if open
-        vim.keymap.set("n", "<leader>Dt", function()
+        vim.keymap.set("n", "<leader>Gt", function()
             local view = require("diffview.lib").get_current_view()
             if view then
                 vim.cmd("DiffviewClose")
@@ -33,13 +33,13 @@ return {
         end, { desc = "Toggle Diffview" })
 
         -- Open File History
-        vim.keymap.set("n", "<leader>Dh", function()
+        vim.keymap.set("n", "<leader>Gh", function()
             vim.cmd("DiffviewFileHistory")
         end, { desc = "Git History" })
 
         -- Open File History for only the current file
-        vim.keymap.set("n", "<leader>Df", function()
+        vim.keymap.set("n", "<leader>Gf", function()
             vim.cmd("DiffviewFileHistory %")
-        end, { desc = "Git Current File History" })
+        end, { desc = "Git current File History" })
     end,
 }

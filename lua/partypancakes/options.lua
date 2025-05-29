@@ -37,7 +37,7 @@ vim.opt.showmode = false
 -- Sync clipboard between OS and Neovim.
 -- Schedule the setting after `UiEnter` because it can increase startup-time.
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+    vim.opt.clipboard = 'unnamedplus'
 end)
 
 -- Enable break indent
@@ -69,4 +69,4 @@ vim.g.have_nerd_font = true
 
 
 -- Global variable to track format-on-save state
-vim.g.format_on_save_enabled = true
+vim.g.format_on_save_enabled = false

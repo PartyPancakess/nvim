@@ -50,26 +50,26 @@ autocmd('LspAttach', {
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
-        map('<leader>gti', require('telescope.builtin').lsp_implementations, 'Goto Implementation')
+        map('<leader>gi', require('telescope.builtin').lsp_implementations, 'Goto Implementation')
 
         map('<leader>gd', vim.diagnostic.open_float, 'Goto Diagnostic')
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
-        map('<leader>gtD', vim.lsp.buf.declaration, 'Goto Declaration')
+        map('<leader>gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>gta', vim.lsp.buf.code_action, 'Goto Code Action')
+        map('<leader>ga', vim.lsp.buf.code_action, 'Goto Code Action')
 
         -- Find references for the word under your cursor.
-        map('<leader>gtr', require('telescope.builtin').lsp_references, 'Goto References')
+        map('<leader>gr', require('telescope.builtin').lsp_references, 'Goto References')
         -- map('<leader>grr', vim.lsp.buf.references, 'Goto References')
 
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
         --  the definition of its *type*, not where it was *defined*.
-        map('<leader>gtt', require('telescope.builtin').lsp_type_definitions, 'Goto Type Definition')
+        map('<leader>gt', require('telescope.builtin').lsp_type_definitions, 'Goto Type Definition')
 
 
         -- OTHER MAPPINGS

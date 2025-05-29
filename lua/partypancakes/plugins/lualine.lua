@@ -61,7 +61,8 @@ return {
                 },
                 lualine_y = { clients_lsp },
                 lualine_z = {
-                    { "location", separator = { left = "", right = " " }, icon = "" },
+                    { "location", separator = { left = "", right = "" }, icon = "" },
+                    { "progress", separator = { left = "", right = " " } },
                 },
             },
             inactive_sections = {

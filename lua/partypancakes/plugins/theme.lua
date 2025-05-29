@@ -6,7 +6,9 @@ local theme_opts = {
     catppuccin = {
         custom_highlights = function(colors)
             return {
-                LineNr = { fg = '#969696' } -- Make line numbers more visible
+                LineNr = { fg = '#969696' }, -- Make line numbers more visible
+
+                CursorLineNr = { bg = '#2F3447', style = { "bold" } },
             }
         end,
         transparent_background = default_transparency -- catppuccin.nvim’s toggle key

@@ -21,9 +21,10 @@ return {
                 { '<leader>f', group = 'Find', icon = '🔍' },
 
                 -- LSP
-                { '<leader>g', group = 'GoTo & Git', icon = '🔗' },
-                { '<leader>gt', group = 'GoTo', icon = '🔗' },
-                { '<leader>gs', icon = '🐙' },
+                { '<leader>g', group = 'GoTo', icon = '🔗' },
+
+                -- Git
+                { '<leader>G', group = 'Git', icon = '󰊢' },
 
                 -- Language Templates
                 { '<leader>l', group = 'Language', icon = '📜' },
