@@ -13,18 +13,15 @@ return {
             -- Document existing key chains/groups
             spec = {
                 -- Groups
-
-                -- Theme
                 { '<leader>T', group = 'Theme', icon = '🎨' },
-
-                -- Telescope
-                { '<leader>f', group = 'Find', icon = '🔍' },
-
-                -- LSP
-                { '<leader>g', group = 'GoTo', icon = '🔗' },
-
-                -- Git
+                { '<leader>f', group = 'Find', icon = '🔍' }, -- Telescope
+                { '<leader>g', group = 'GoTo', icon = '🔗' }, -- LSP
                 { '<leader>G', group = 'Git', icon = '󰊢' },
+                { "<leader>a", group = "AI", icon = '🤖', mode = { "n", "v" } },
+                { '<leader>t', group = 'Toggle' },
+                { '<leader>h', group = 'Harpoon', icon = '📌' },
+                { '<leader>b', group = 'Debug', icon = '🐞' },
+                { '<leader>bu', group = 'Debug UI', icon = '🖥️' },
 
                 -- Language Templates
                 { '<leader>l', group = 'Language', icon = '📜' },
@@ -33,14 +30,6 @@ return {
 
                 -- Fun Stuff
                 { '<leader>.', group = 'Random Fun Stuff', icon = '🎉' },
-
-                { '<leader>t', group = 'Toggle' },
-
-                { '<leader>h', group = 'Harpoon', icon = '📌' },
-
-                { '<leader>b', group = 'Debug', icon = '🐞' },
-                { '<leader>bu', group = 'Debug UI', icon = '🖥️' },
-
 
                 -- Non-Groups
                 { '<leader>u', icon = '↩️' },

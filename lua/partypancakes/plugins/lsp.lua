@@ -89,9 +89,9 @@ return {
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<C-y>'] = cmp.mapping.confirm({ select = true }),
                 ['<C-Space>'] = cmp.mapping.complete(),
+                ['<C-x>'] = cmp.mapping.abort(),
             }),
             sources = cmp.config.sources({
-                { name = "copilot", group_index = 2 },
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip.
             }, {
