@@ -1,2 +1,3 @@
 /lua/partypancakes/plugins/temps
 **/.DS_Store
+.luarc.json

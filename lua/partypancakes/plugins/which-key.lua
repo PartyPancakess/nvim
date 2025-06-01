@@ -19,6 +19,7 @@ return {
                 { '<leader>G', group = 'Git', icon = '󰊢' },
                 { "<leader>a", group = "AI", icon = '🤖', mode = { "n", "v" } },
                 { '<leader>t', group = 'Toggle' },
+                { '<leader>c', group = 'Code', icon = '⚙️' },
                 { '<leader>h', group = 'Harpoon', icon = '📌' },
                 { '<leader>b', group = 'Debug', icon = '🐞' },
                 { '<leader>bu', group = 'Debug UI', icon = '🖥️' },

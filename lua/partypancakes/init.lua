@@ -54,14 +54,13 @@ autocmd('LspAttach', {
 
         map('<leader>gd', vim.diagnostic.open_float, 'Goto Diagnostic')
 
-        -- WARN: This is not Goto Definition, this is Goto Declaration.
+        -- This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
         map('<leader>gD', vim.lsp.buf.declaration, 'Goto Declaration')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        -- TODO: Change this keymap, it is not a goto.
-        map('<leader>ga', vim.lsp.buf.code_action, 'Code Action')
+        map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
 
         -- Find references for the word under your cursor.
         map('<leader>gR', require('telescope.builtin').lsp_references, 'Goto (All) References')

@@ -13,14 +13,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true, desc = 'Explorer Tree Sidebar' })
 
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
-
 -- Text Manipulation / Navigation ----------------
 
 -- Move selected line/block of text in visual mode
@@ -47,13 +39,12 @@ vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d", { desc = 'Delete without yanki
 -- Copy text to system clipboard (Uncomment if system clipboard and vim are not synced)
 -- vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 -- vim.keymap.set("n", "<leader>Y", [["+Y]]) -- yank whole line
--- TODO: Add a paste from system clipboard keymap
 
 -- Quickfix Navigation
-vim.keymap.set("n", "<C-D-k>", "<cmd>cnext<CR>zz") -- "C-D" stands for Ctrl+Command
-vim.keymap.set("n", "<C-D-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = 'Quickfix list next location' })
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = 'Quickfix list prev. location' })
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz") -- "C-D" stands for Ctrl+Command
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = 'Quickfix list next location' })
+vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = 'Quickfix list prev. location' })
 
 -- Replacte the word under cursor and other occurances
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
