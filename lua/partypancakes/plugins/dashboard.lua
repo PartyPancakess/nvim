@@ -6,9 +6,6 @@ return {
         event = 'VimEnter',
         config = function()
             require('dashboard').setup {
-                -- hide = {
-                --     statusline = false,
-                -- },
                 shortcut_type = 'number',
                 config = {
                     header = logo,

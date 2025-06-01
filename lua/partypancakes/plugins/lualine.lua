@@ -25,6 +25,9 @@ return {
                 theme = custom_line_theme,
                 component_separators = "",
                 section_separators = { left = "", right = "" },
+                disabled_filetypes = {
+                    statusline = { 'dashboard' },
+                },
             },
             sections = {
                 lualine_a = {
@@ -62,7 +65,12 @@ return {
                 lualine_y = { clients_lsp },
                 lualine_z = {
                     { "location", separator = { left = "", right = "" }, icon = "" },
-                    { "progress", separator = { left = "", right = " " } },
+                    {
+                        function()
+                            return "📄 " .. tostring(vim.fn.line('$'))
+                        end,
+                        separator = { left = "", right = " " }
+                    },
                 },
             },
             inactive_sections = {
