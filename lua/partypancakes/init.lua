@@ -60,11 +60,12 @@ autocmd('LspAttach', {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>ga', vim.lsp.buf.code_action, 'Goto Code Action')
+        -- TODO: Change this keymap, it is not a goto.
+        map('<leader>ga', vim.lsp.buf.code_action, 'Code Action')
 
         -- Find references for the word under your cursor.
-        map('<leader>gr', require('telescope.builtin').lsp_references, 'Goto References')
-        -- map('<leader>grr', vim.lsp.buf.references, 'Goto References')
+        map('<leader>gR', require('telescope.builtin').lsp_references, 'Goto (All) References')
+        map('<leader>gr', vim.lsp.buf.references, 'Goto (Buffer) References')
 
         -- Jump to the type of the word under your cursor.
         --  Useful when you're not sure what type a variable is and you want to see
@@ -135,6 +136,6 @@ autocmd('LspAttach', {
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, 'Toggle Inlay Hints')
         end
-          
+
     end
 })
