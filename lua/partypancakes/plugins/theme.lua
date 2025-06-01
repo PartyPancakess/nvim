@@ -4,7 +4,7 @@ local default_transparency = true -- Set Transparency off/on as default
 
 local theme_opts = {
     catppuccin = {
-        custom_highlights = function(colors)
+        custom_highlights = function()
             return {
                 LineNr = { fg = '#969696' }, -- Make line numbers more visible
 
