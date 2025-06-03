@@ -40,13 +40,7 @@ return {
             { desc = "Add an item to the Harpoon list" })
         -- Toggle previous & next buffers stored within Harpoon list
 
-        -- 2 Options: Either use Ctrl + p/n or Meta + Shift + p/n
-        -- Meta is reserved for TMUX operations, but Meta + Shift + p/n is unused, so viable.
         -- Ctrl + p/n is already used by conform (autocompletion), but only in insert mode.
-
-        -- vim.keymap.set("n", "<M-S-P>", function() harpoon:list():prev() end, { desc = "Harpoon Previous" })
-        -- vim.keymap.set("n", "<M-S-N>", function() harpoon:list():next() end, { desc = "Harpoon Next" })
-
         vim.keymap.set("n", "<C-p>", function() harpoon:list():prev() end, { desc = "Harpoon Previous" })
         vim.keymap.set("n", "<C-n>", function() harpoon:list():next() end, { desc = "Harpoon Next" })
     end
