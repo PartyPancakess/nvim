@@ -17,9 +17,6 @@ local function get_project_dirs()
         local source_dir = vim.fn.fnamemodify(source_path, ":h")
         vim.fn.mkdir(source_dir, "p")
 
-        -- Get home directory
-        local home_dir = vim.fn.expand("~")
-
         -- Create default content
         local default_content = 'return { "' .. config_path .. '" }'
 
@@ -45,6 +42,54 @@ local function get_project_dirs()
     if result ~= 0 then
         error("Could not write to target file: " .. target_path)
     end
+end
+
+-- add the current git project to the list of projects
+local function add_project()
+    -- add the current project (if does not exist already), to the projects list file.
+
+    local path = Get_Git_Root()
+    if path == nil then
+        return
+    end
+
+    local config_path = vim.fn.stdpath("config")
+    local file_path = vim.fn.expand(config_path .. "/lua/partypancakes/resources/dashboard-projects")
+
+    -- read the existing file (if it exists)
+    local existing = {}
+    local fh = io.open(file_path, "r")
+    if fh then
+        local chunk = fh:read("*a")
+        fh:close()
+
+        -- safely load() the chunk; it should return a table
+        local ok, tbl = pcall(load(chunk))
+        if ok and type(tbl) == "table" then
+            existing = tbl
+        else
+            -- if load() fails or doesn't return a table, start fresh
+            existing = {}
+        end
+    end
+
+    -- check if path is already in 'existing'
+    for _, v in ipairs(existing) do
+        if v == path then
+            return
+        end
+    end
+
+    -- append and rewrite the file as a Lua table literal
+    table.insert(existing, path)
+
+    local outfh = assert(io.open(file_path, "w"), "Could not open file for writing: " .. file_path)
+    outfh:write("return {\n")
+    for _, v in ipairs(existing) do
+        outfh:write(string.format("  %q,\n", v))
+    end
+    outfh:write("}\n")
+    outfh:close()
 end
 
 return {
@@ -82,6 +127,8 @@ return {
                     },
                 },
             }
+
+            vim.keymap.set("n", "<leader>cd", add_project, { desc = "Dashboard - Add Project to List" })
         end,
         dependencies = { { 'nvim-tree/nvim-web-devicons' } }
     }

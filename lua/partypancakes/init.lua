@@ -1,6 +1,7 @@
 require("partypancakes.options")
 require("partypancakes.keymaps")
 require("partypancakes.lazy")
+require("partypancakes.utils")
 
 local augroup = vim.api.nvim_create_augroup
 local PartyPancakesGroup = augroup('PartyPancakes', {})
