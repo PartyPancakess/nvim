@@ -1,7 +1,35 @@
+function HarpoonChangeData()
+    -- Change Plugin Behavior
+    -- Replace     local h = hash(filename(config)) to local h = "myfiles"
+    -- in harpoon/lua/harpoon/data.lua to save all data in a singe file.
+    local plugin_path = vim.fn.stdpath("data") .. "/lazy/harpoon/lua/harpoon/data.lua"
+
+    local lines = {}
+    for line in io.lines(plugin_path) do
+        if line:match("^%s*local%s+h%s*=%s*hash%s*%(%s*filename%s*%(%s*config%s*%)%s*%)%s*$") then
+            table.insert(lines, 'local h = "myfiles"')
+        else
+            table.insert(lines, line)
+        end
+    end
+
+    local file = io.open(plugin_path, "w")
+    if file ~= nil then
+        file:write(table.concat(lines, "\n"))
+        file:close()
+    end
+end
+
 return {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "echasnovski/mini.nvim",
+    },
+    build = function()
+        HarpoonChangeData()
+    end,
     config = function()
         local harpoon = require("harpoon")
         local harpoon_extensions = require("harpoon.extensions")
