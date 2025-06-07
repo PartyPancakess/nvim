@@ -40,7 +40,7 @@ return {
                     -- end)
 
                     -- Actions
-                    map('n', '<leader>Gr', gitsigns.reset_hunk)
+                    map('n', '<leader>Gr', gitsigns.reset_hunk, { desc = "Reset Hunk" })
                 end,
             }
         end,
