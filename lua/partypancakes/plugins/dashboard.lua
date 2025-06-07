@@ -92,6 +92,68 @@ local function add_project()
     outfh:close()
 end
 
+local function refresh_dashboard()
+    -- Find all dashboard buffers and delete them
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) then
+            local ok, ft = pcall(vim.api.nvim_buf_get_option, buf, "filetype")
+            if ok and ft == "dashboard" then
+                -- Close this buffer
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end
+        end
+    end
+    -- Open the dashboard in the current window
+    vim.cmd("Dashboard")
+end
+
+local function remove_project_under_cursor()
+    -- Get the current line (project path) under the cursor
+    local line = vim.api.nvim_get_current_line()
+    local path = line:match("^%s*[^%s]*%s+(.-)%s*$")
+    if not path then
+        return
+    end
+    path = vim.fn.expand(path)
+
+    -- Load dashboard-projects file
+    local config_path = vim.fn.stdpath("config")
+    local file_path = vim.fn.expand(config_path .. "/lua/partypancakes/resources/dashboard-projects")
+
+    -- Read existing projects
+    local projects = {}
+    local fh = io.open(file_path, "r")
+    if fh then
+        local chunk = fh:read("*a")
+        fh:close()
+        local ok, tbl = pcall(load(chunk))
+        if ok and type(tbl) == "table" then
+            projects = tbl
+        end
+    end
+
+    -- Remove the selected path
+    local new_projects = {}
+    for _, v in ipairs(projects) do
+        if v ~= path then
+            table.insert(new_projects, v)
+        end
+    end
+
+    -- Write back to file
+    local outfh = assert(io.open(file_path, "w"), "Could not open file for writing: " .. file_path)
+    outfh:write("return {\n")
+    for _, v in ipairs(new_projects) do
+        outfh:write(string.format('  "%s",\n', v))
+    end
+    outfh:write("}\n")
+    outfh:close()
+
+    get_project_dirs()
+
+    refresh_dashboard()
+end
+
 return {
     {
         'nvimdev/dashboard-nvim',
@@ -115,6 +177,8 @@ return {
                         },
                         { action = "ene | startinsert", desc = "New File", icon = " ", icon_hl = '@variable', group = 'Label', key = "n" },
                         { action = 'lua require("persistence").load()', desc = "Restore Session", icon = " ", icon_hl = '@variable', group = 'Label', key = "r" },
+
+                        { action = remove_project_under_cursor, desc = "Remove Project From List", icon = "X ", icon_hl = '@variable', group = 'Label', key = "x" },
                     },
                     footer = {},
 
