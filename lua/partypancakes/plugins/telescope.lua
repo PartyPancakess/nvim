@@ -24,12 +24,23 @@ return {
                 defaults = {
                     path_display = { "truncate" },
                     -- path_display = { "smart" },
+
+                    -- theme = "center",
+                    -- sorting_strategy = "ascending",
+                    -- layout_config = {
+                    --     horizontal = {
+                    --         prompt_position = "top",
+                    --         preview_width = 0.3,
+                    --     },
+                    -- },
+
                 }
             }
 
             -- Enable Telescope extensions if they are installed
             pcall(require('telescope').load_extension, 'fzf')
             pcall(require('telescope').load_extension, 'ui-select')
+            pcall(require("telescope").load_extension 'file_browser')
             local builtin = require 'telescope.builtin'
 
             -- KEYMAPS
@@ -89,6 +100,15 @@ return {
             --     prompt_title = 'Live Grep in Open Files',
             --   }
             -- end, { desc = 'Find [/] in Open Files' })
+        end,
+    },
+
+    {
+        "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+        config = function()
+            vim.keymap.set("n", "<space>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+                { desc = 'File Browser' })
         end,
     }
 }
