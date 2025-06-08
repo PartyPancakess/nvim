@@ -1,6 +1,7 @@
 -- Theme configuration is done here as a variable instead of in the return,
 -- so that it can be used in the function SetTheme() below, for toggling transparency.
 local default_transparency = true -- Set Transparency off/on as default
+local default_focus = false       -- true: Set Transparency off for out-of-focus windows only
 
 local theme_opts = {
     catppuccin = {
@@ -71,31 +72,48 @@ end
 
 local function toggle_theme_transparency()
     local scheme = vim.g.colors_name or ""
-    if scheme:match("^catppuccin") then
-        theme_opts.catppuccin.transparent_background =
-            not theme_opts.catppuccin.transparent_background
-        require("catppuccin").setup(theme_opts.catppuccin)
-    elseif scheme:match("^gruvbox") then
-        theme_opts.gruvbox.transparent_mode =
-            not theme_opts.gruvbox.transparent_mode
-        require("gruvbox").setup(theme_opts.gruvbox)
-    elseif scheme:match("^tokyonight") then
-        theme_opts.tokyonight.transparent =
-            not theme_opts.tokyonight.transparent
-        require("tokyonight").setup(theme_opts.tokyonight)
-    elseif scheme:match("^rose[_-]pine") then
-        theme_opts["rose-pine"].styles.transparency =
-            not theme_opts["rose-pine"].styles.transparency
-        require("rose-pine").setup(theme_opts["rose-pine"])
-    else
-        vim.notify("No transparency toggle configured for “" .. scheme ..
-            "”", vim.log.levels.WARN)
-        return
-    end
+
+    theme_opts.catppuccin.transparent_background =
+        not theme_opts.catppuccin.transparent_background
+    require("catppuccin").setup(theme_opts.catppuccin)
+    theme_opts.gruvbox.transparent_mode =
+        not theme_opts.gruvbox.transparent_mode
+    require("gruvbox").setup(theme_opts.gruvbox)
+    theme_opts.tokyonight.transparent =
+        not theme_opts.tokyonight.transparent
+    require("tokyonight").setup(theme_opts.tokyonight)
+    theme_opts["rose-pine"].styles.transparency =
+        not theme_opts["rose-pine"].styles.transparency
+    require("rose-pine").setup(theme_opts["rose-pine"])
 
     -- reapply exactly the same colorscheme + variant of current
     vim.cmd.colorscheme(scheme)
 end
+
+-- Make unfocused windows non-transparent / or / all windows' transparency are the same
+local function toggle_focus_transparency()
+    default_focus = not default_focus
+
+    theme_opts.gruvbox.transparent_mode = not default_focus
+    theme_opts["rose-pine"].styles.transparency = not default_focus
+    theme_opts.tokyonight.transparent = not default_focus
+    theme_opts.catppuccin.transparent_background = not default_focus
+
+    require("catppuccin").setup(theme_opts.catppuccin)
+    require("gruvbox").setup(theme_opts.gruvbox)
+    require("tokyonight").setup(theme_opts.tokyonight)
+    require("rose-pine").setup(theme_opts["rose-pine"])
+
+    -- reapply exactly the same colorscheme + variant of current
+    local scheme = vim.g.colors_name or ""
+    vim.cmd.colorscheme(scheme)
+
+    if default_focus then
+        vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end
+end
+
 
 -- Keymaps to switch themes
 
@@ -115,6 +133,10 @@ vim.keymap.set("n", "<leader>T3", function() SetTheme(3) end,
 vim.keymap.set("n", "<leader>TT", function() toggle_theme_transparency() end,
     { desc = "Toggle Opaque/Transparent", silent = true })
 
+vim.keymap.set("n", "<leader>Tf", function() toggle_focus_transparency() end,
+    { desc = "Toggle unfocused window transparency" })
+
+
 return {
     {
         "catppuccin/nvim",
@@ -122,6 +144,10 @@ return {
         config = function()
             require("catppuccin").setup(theme_opts.catppuccin)
             SetTheme()
+            if default_focus then
+                default_focus = false
+                toggle_focus_transparency()
+            end
         end
     },
     {
