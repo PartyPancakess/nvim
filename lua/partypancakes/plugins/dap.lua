@@ -1,3 +1,5 @@
+local dap_enabled = true
+
 -- Debugging setup
 vim.api.nvim_create_augroup("DapGroup", { clear = true })
 
@@ -36,6 +38,7 @@ return {
     {
         "mfussenegger/nvim-dap",
         lazy = false,
+        enabled = dap_enabled,
         config = function()
             local dap = require("dap")
             dap.set_log_level("DEBUG")
@@ -54,6 +57,7 @@ return {
     {
         "rcarriga/nvim-dap-ui",
         dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+        enabled = dap_enabled,
         config = function()
             local dap = require("dap")
             local dapui = require("dapui")
@@ -148,6 +152,7 @@ return {
             "mfussenegger/nvim-dap",
             "neovim/nvim-lspconfig",
         },
+        enabled = dap_enabled,
         config = function()
             require("mason-nvim-dap").setup({
                 ensure_installed = {
@@ -182,4 +187,3 @@ return {
         end,
     },
 }
-
