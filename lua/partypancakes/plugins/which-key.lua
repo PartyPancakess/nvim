@@ -23,6 +23,7 @@ return {
                 { '<leader>h', group = 'Harpoon', icon = '📌' },
                 { '<leader>b', group = 'Debug', icon = '🐞' },
                 { '<leader>bu', group = 'Debug UI', icon = '🖥️' },
+                { '<leader>s', group = 'Surround', icon = '🪄' },
 
                 -- Language Templates
                 { '<leader>l', group = 'Language', icon = '📜' },
@@ -37,7 +38,6 @@ return {
                 { '<leader>e', icon = '🗂️' },
                 { '<leader>d', icon = '🗑️', mode = { "n", "v" } },
                 { '<leader>p', icon = '📥', mode = 'x' },
-                { '<leader>s', icon = '🪄' },
             },
         },
     }
