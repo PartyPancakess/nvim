@@ -1,8 +1,8 @@
 return {
-    {                          -- Autoformat
+    {                              -- Autoformat
         'stevearc/conform.nvim',
         event = { 'BufWritePre' }, -- Run on just before writing to disk (format before saving)
-        cmd = { 'ConformInfo' }, -- Run :ConformInfo to see info on current formatters
+        cmd = { 'ConformInfo' },   -- Run :ConformInfo to see info on current formatters
         keys = {
             {
                 '<leader>F',
@@ -42,8 +42,7 @@ return {
                             local supports_formatting = client.server_capabilities.documentFormattingProvider
                             local format_icon = supports_formatting and "✓" or "✗"
                             table.insert(lsp_details,
-                                string.format("  %s %s %s", format_icon, client.name,
-                                    supports_formatting and "(supports formatting)" or "(no formatting)"))
+                                string.format("  %s (supports formatting: %s)", client.name, format_icon))
                         end
                     end
 

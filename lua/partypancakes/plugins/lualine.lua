@@ -12,7 +12,9 @@ return {
 
             local c = {}
             for _, client in pairs(clients) do
-                table.insert(c, client.name)
+                if client.name ~= "copilot" and not vim.tbl_contains(c, client.name) then
+                    table.insert(c, client.name)
+                end
             end
             return " " .. table.concat(c, "|")
         end
