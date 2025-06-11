@@ -156,6 +156,65 @@ local function remove_project_under_cursor()
     refresh_dashboard()
 end
 
+-- Move the projects in the list (re-order)
+local function move_in_list(direction)
+    -- Get the current line (project path) under the cursor
+    local line = vim.api.nvim_get_current_line()
+    local path = line:match("^%s*[^%s]*%s+(.-)%s*$")
+    if not path then
+        return
+    end
+    path = vim.fn.expand(path)
+
+    -- Load dashboard-projects file
+    local config_path = vim.fn.stdpath("config")
+    local file_path = vim.fn.expand(config_path .. "/lua/partypancakes/resources/dashboard-projects")
+
+    -- Read existing projects
+    local projects = {}
+    local fh = io.open(file_path, "r")
+    if fh then
+        local chunk = fh:read("*a")
+        fh:close()
+        local ok, tbl = pcall(load(chunk))
+        if ok and type(tbl) == "table" then
+            projects = tbl
+        end
+    end
+
+    if direction == "up" then
+        -- Move the selected path one up in the list order
+        for i, v in ipairs(projects) do
+            if v == path and i < #projects then
+                projects[i], projects[i + 1] = projects[i + 1], projects[i]
+                break
+            end
+        end
+    elseif direction == "down" then
+        -- Move the selected path one down in the list order
+        for i, v in ipairs(projects) do
+            if v == path and i > 1 then
+                projects[i], projects[i - 1] = projects[i - 1], projects[i]
+                break
+            end
+        end
+    end
+
+    -- Write back to file
+    local outfh = assert(io.open(file_path, "w"), "Could not open file for writing: " .. file_path)
+    outfh:write("return {\n")
+    for _, v in ipairs(projects) do
+        outfh:write(string.format('  "%s",\n', v))
+    end
+    outfh:write("}\n")
+    outfh:close()
+
+    get_project_dirs()
+
+    refresh_dashboard()
+end
+
+
 return {
     {
         'nvimdev/dashboard-nvim',
@@ -195,7 +254,9 @@ return {
                 },
             }
 
-            vim.keymap.set("n", "<leader>cd", add_project, { desc = "Dashboard - Add Project to List" })
+            vim.keymap.set("n", "<leader>cda", add_project, { desc = "Dashboard - Add Project to List" })
+            vim.keymap.set("n", "<leader>cdd", function () move_in_list("down") end, { desc = "Dashboard - Move Project Down" })
+            vim.keymap.set("n", "<leader>cdu", function () move_in_list("up") end, { desc = "Dashboard - Move Project Up" })
         end,
         dependencies = { { 'nvim-tree/nvim-web-devicons' } }
     }
