@@ -1,3 +1,5 @@
+vim.g.enable_dashboard_mru = false
+
 local logo = require("partypancakes.resources.art.chuck1")
 
 -- Look for a dashboard-projects file which is a list of directories to be displayed in the 'Projects' section of dashboard,
@@ -189,6 +191,7 @@ return {
                         label = 'Projects',
                         action = 'Telescope find_files cwd=',
                     },
+                    mru = { enable = vim.g.enable_dashboard_mru },
                 },
             }
 
