@@ -24,6 +24,7 @@ return {
                 { '<leader>b', group = 'Debug', icon = '🐞' },
                 { '<leader>bu', group = 'Debug UI', icon = '🖥️' },
                 { '<leader>s', group = 'Surround', icon = '🪄' },
+                { '<leader>cd', group = 'Dashboard', icon = '🧭' },
 
                 -- Language Templates
                 { '<leader>l', group = 'Language', icon = '📜' },
