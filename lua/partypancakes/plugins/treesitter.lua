@@ -6,7 +6,7 @@ return {
         require("nvim-treesitter.configs").setup({
             -- A list of parser names, or "all"
             ensure_installed = {
-                "vim", "vimdoc", "lua", 'luadoc', "bash", 'diff', 
+                "vim", "vimdoc", "lua", 'luadoc', "bash", 'diff',
                 'html', 'markdown', 'markdown_inline', 'query', "jsdoc",
                 "javascript", "typescript", "c", "rust", "go",
             },
@@ -26,9 +26,9 @@ return {
                 -- `false` will disable the whole extension
                 enable = true,
                 disable = function(lang, buf)
-                    if lang == "html" or lang == "go" then
-                        return true
-                    end
+                    -- if lang == "html" or lang == "go" then
+                        -- return true
+                    -- end
 
                     local max_filesize = 100 * 1024 -- 100 KB
                     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
