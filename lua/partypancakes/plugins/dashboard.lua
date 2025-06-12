@@ -237,7 +237,7 @@ return {
                             key = 'f',
                         },
                         { action = "ene | startinsert", desc = "New File", icon = " ", icon_hl = '@variable', group = 'Label', key = "n" },
-                        { action = 'lua require("persistence").load()', desc = "Restore Session", icon = " ", icon_hl = '@variable', group = 'Label', key = "r" },
+                        { action = 'lua require("persistence").load({ last = true })', desc = "Restore Session", icon = " ", icon_hl = '@variable', group = 'Label', key = "r" },
 
                         { action = remove_project_under_cursor, desc = "Remove Project From List", icon = "X ", icon_hl = '@variable', group = 'Label', key = "x" },
                     },
