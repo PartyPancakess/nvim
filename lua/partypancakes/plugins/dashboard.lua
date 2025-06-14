@@ -48,9 +48,7 @@ end
 
 -- add the current git project to the list of projects
 local function add_project()
-    -- add the current project (if does not exist already), to the projects list file.
-
-    local path = Get_Git_Root()
+    local path = vim.loop.getcwd()
     if path == nil then
         return
     end
@@ -65,7 +63,7 @@ local function add_project()
         local chunk = fh:read("*a")
         fh:close()
 
-        -- safely load() the chunk; it should return a table
+        -- safely load() the chunk
         local ok, tbl = pcall(load(chunk))
         if ok and type(tbl) == "table" then
             existing = tbl
@@ -75,14 +73,12 @@ local function add_project()
         end
     end
 
-    -- check if path is already in 'existing'
     for _, v in ipairs(existing) do
         if v == path then
             return
         end
     end
 
-    -- append and rewrite the file as a Lua table literal
     table.insert(existing, path)
 
     local outfh = assert(io.open(file_path, "w"), "Could not open file for writing: " .. file_path)
@@ -255,8 +251,10 @@ return {
             }
 
             vim.keymap.set("n", "<leader>cda", add_project, { desc = "Dashboard - Add Project to List" })
-            vim.keymap.set("n", "<leader>cdd", function () move_in_list("down") end, { desc = "Dashboard - Move Project Down" })
-            vim.keymap.set("n", "<leader>cdu", function () move_in_list("up") end, { desc = "Dashboard - Move Project Up" })
+            vim.keymap.set("n", "<leader>cdd", function() move_in_list("down") end,
+                { desc = "Dashboard - Move Project Down" })
+            vim.keymap.set("n", "<leader>cdu", function() move_in_list("up") end,
+                { desc = "Dashboard - Move Project Up" })
         end,
         dependencies = { { 'nvim-tree/nvim-web-devicons' } }
     }
