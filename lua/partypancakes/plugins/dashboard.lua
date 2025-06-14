@@ -48,7 +48,7 @@ end
 
 -- add the current git project to the list of projects
 local function add_project()
-    local path = vim.loop.getcwd()
+    local path = vim.fn.getcwd()
     if path == nil then
         return
     end

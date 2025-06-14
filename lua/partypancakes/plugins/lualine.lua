@@ -10,13 +10,20 @@ return {
                 return ""
             end
 
-            local c = {}
-            for _, client in pairs(clients) do
-                if client.name ~= "copilot" and not vim.tbl_contains(c, client.name) then
-                    table.insert(c, client.name)
+            -- Get LSP clients attached to this buffer
+            local bufnr = vim.api.nvim_get_current_buf()
+            local lsp_clients = vim.lsp.get_clients({ bufnr = bufnr })
+            local lsp_names = {}
+
+            if #lsp_clients > 0 then
+                for _, client in ipairs(lsp_clients) do
+                    if client.name ~= "copilot" and not vim.tbl_contains(lsp_names, client.name) then
+                        table.insert(lsp_names, client.name)
+                    end
                 end
             end
-            return " " .. table.concat(c, "|")
+
+            return " " .. table.concat(lsp_names, "|")
         end
 
         local custom_line_theme = require("lualine.themes.dracula")
