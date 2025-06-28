@@ -79,21 +79,31 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            enabled = function()
+                local disabled = false
+                disabled = disabled or (vim.api.nvim_get_option_value('buftype', { buf = 0 }) == 'prompt')
+                disabled = disabled or (vim.fn.reg_recording() ~= '')
+                disabled = disabled or (vim.fn.reg_executing() ~= '')
+                disabled = disabled or require('cmp.config.context').in_treesitter_capture('comment')
+                return not disabled
+            end,
+
             snippet = {
                 expand = function(args)
                     require('luasnip').lsp_expand(args.body) -- For `luasnip`.
                 end,
             },
             mapping = cmp.mapping.preset.insert({
-                ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-                ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ['<C-k>'] = cmp.mapping.select_prev_item(cmp_select),
+                ['<C-j>'] = cmp.mapping.select_next_item(cmp_select),
+                ['<C-l>'] = cmp.mapping.confirm({ select = true }),
                 ['<C-Space>'] = cmp.mapping.complete(),
                 ['<C-x>'] = cmp.mapping.abort(),
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip.
+                { name = 'copilot' },
             }, {
                 { name = 'buffer' },
             })

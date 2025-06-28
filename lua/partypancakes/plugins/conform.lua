@@ -23,6 +23,13 @@ return {
                 desc = 'Toggle format-on-save',
             },
             {
+                '<leader>ll',
+                function()
+                    vim.cmd('ConformInfo')
+                end,
+                desc = 'Show Conform Info',
+            },
+            {
                 '<leader>li', -- Show info about the formatters configured for the current buffer
                 function()
                     local conform = require('conform')

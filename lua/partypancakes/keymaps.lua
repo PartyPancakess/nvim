@@ -46,6 +46,13 @@ vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = 'Quickfix list next location' })
 vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = 'Quickfix list prev. location' })
 
+
+-- Change complition navigation to use <C-j> and <C-k> instead of <C-n> and <C-p>
+vim.keymap.set("i", "<C-j>", "<C-n>", { desc = 'Next completion item' })
+vim.keymap.set("i", "<C-k>", "<C-p>", { desc = 'Previous completion item' })
+vim.keymap.set("i", "<C-l>", "<C-y>", { desc = 'Trigger completion' })
+
+
 -- Replacte the word under cursor and other occurances
 vim.keymap.set("n", "<leader>rr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = 'Replace word under cursor' })

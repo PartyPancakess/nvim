@@ -15,6 +15,7 @@ return {
             { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
         },
         config = function()
+            local actions = require('telescope.actions')
             require('telescope').setup {
                 extensions = {
                     ['ui-select'] = {
@@ -33,6 +34,14 @@ return {
                     --         preview_width = 0.3,
                     --     },
                     -- },
+
+                    mappings = {
+                        i = {
+                            ["<C-j>"] = actions.move_selection_next,
+                            ["<C-k>"] = actions.move_selection_previous,
+                        },
+                    },
+
 
                 }
             }
