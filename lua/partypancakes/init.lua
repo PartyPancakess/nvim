@@ -1,4 +1,5 @@
 require("partypancakes.options")
+require("partypancakes.utils")
 require("partypancakes.keymaps")
 require("partypancakes.lazy")
 

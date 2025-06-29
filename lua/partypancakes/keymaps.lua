@@ -41,10 +41,8 @@ vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d", { desc = 'Delete without yanki
 -- vim.keymap.set("n", "<leader>Y", [["+Y]]) -- yank whole line
 
 -- Quickfix Navigation
-vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz") -- "C-D" stands for Ctrl+Command
-vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = 'Quickfix list next location' })
-vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = 'Quickfix list prev. location' })
+vim.keymap.set("n", "<C-j>", Smart_quickfix_next, { desc = "Next in quickfix or loclist" })
+vim.keymap.set("n", "<C-k>", Smart_quickfix_prev, { desc = "Prev in quickfix or loclist" })
 
 
 -- Change complition navigation to use <C-j> and <C-k> instead of <C-n> and <C-p>
