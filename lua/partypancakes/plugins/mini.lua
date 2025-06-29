@@ -33,6 +33,7 @@ return {
 
             })
 
+            require('mini.diff').setup()
 
             require('mini.misc').setup()
             -- Set working directory to current buffer's project dir
