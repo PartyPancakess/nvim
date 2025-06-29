@@ -51,10 +51,10 @@ return {
         keys = {
             { "<leader>ap", "<cmd>CodeCompanionActions<cr>",       mode = { "n", "v" }, desc = "AI Action" },
             { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>",   mode = { "n", "v" }, desc = "AI Toggle Chat" },
-            { "<leader>an", "<cmd>CodeCompanionChat<cr>",          mode = { "n", "v" }, desc = "AI [N]ew Chat" },
-            { "ga",         "<cmd>CodeCompanionChat Add<CR>",      mode = { "v" },      desc = "AI [A]dd to Chat" },
+            { "<leader>an", "<cmd>CodeCompanionChat<cr>",          mode = { "n", "v" }, desc = "AI New Chat" },
             -- prompts
-            { "<leader>ae", "<cmd>CodeCompanion /explain<cr>",     mode = { "v" },      desc = "AI [E]xplain" },
+            { "<leader>ad", "<cmd>CodeCompanionChat Add<CR>",      mode = { "v" },      desc = "AI Add to Chat" },
+            { "<leader>ae", "<cmd>CodeCompanion /explain<cr>",     mode = { "v" },      desc = "AI Explain" },
             { "<leader>al", [[:<C-u>'<,'>CodeCompanion /buffer ]], mode = { "v" },      desc = "AI Inline command" },
         },
         config = function()
