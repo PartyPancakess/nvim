@@ -17,6 +17,7 @@ return {
     },
 
     config = function()
+        vim.api.nvim_set_hl(0, "CmpDocNormal", { bg = "#282c3d" })
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -106,7 +107,13 @@ return {
                 { name = 'copilot' },
             }, {
                 { name = 'buffer' },
-            })
+            }),
+
+            window = {
+                documentation = {
+                    winhighlight = "Normal:CmpDocNormal",
+                },
+            },
         })
 
         vim.diagnostic.config({
