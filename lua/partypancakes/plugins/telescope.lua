@@ -101,14 +101,17 @@ return {
 
             -- Extra mappings
             -- vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find Resume old search' })
-            -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find Select Telescope' })
             vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = 'Find Recent Files by name' })
-            -- vim.keymap.set('n', '<leader>f/', function()
-            --   builtin.live_grep {
-            --     grep_open_files = true,
-            --     prompt_title = 'Live Grep in Open Files',
-            --   }
-            -- end, { desc = 'Find [/] in Open Files' })
+            vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Find document symbols' })
+            vim.keymap.set('n', '<leader>f/', function()
+                builtin.live_grep {
+                    grep_open_files = true,
+                    prompt_title = 'Live Grep in Open Files',
+                }
+            end, { desc = 'Find [/] in Open Files' })
+
+            vim.keymap.set("n", "<leader>Tc", builtin.colorscheme,
+                { desc = "Change Theme" })
         end,
     },
 

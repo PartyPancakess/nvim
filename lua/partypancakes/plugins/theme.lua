@@ -12,47 +12,18 @@ local theme_opts = {
                 CursorLineNr = { bg = '#2F3447', style = { "bold" } },
             }
         end,
-        transparent_background = default_transparency -- catppuccin.nvim’s toggle key
+        transparent_background = default_transparency
     },
     gruvbox = {
-        terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = false,
-        bold = true,
-        italic = {
-            strings = false,
-            emphasis = false,
-            comments = false,
-            operators = false,
-            folds = false
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = "",  -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = default_transparency -- gruvbox.nvim’s toggle key
+        transparent_mode = default_transparency
     },
     tokyonight = {
-        style = "moon",                     -- default variant
-        transparent = default_transparency, -- tokyonight.nvim’s toggle key
-        terminal_colors = true,
-        styles = {
-            comments = { italic = false },
-            keywords = { italic = false },
-            sidebars = "dark", -- style for sidebars, see below
-            floats = "dark"    -- style for floating windows
-        }
+        transparent = default_transparency,
     },
     ["rose-pine"] = {
         styles = {
             italic = false,
-            transparency = default_transparency -- rose-pine’s toggle key
+            transparency = default_transparency
         }
     }
 }
