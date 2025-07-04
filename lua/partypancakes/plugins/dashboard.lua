@@ -241,7 +241,7 @@ return {
 
                     project = {
                         enable = true,
-                        -- limit = 10,
+                        limit = 20,
                         icon = '󰉋 ',
                         label = 'Projects',
                         action = 'Telescope find_files cwd=',

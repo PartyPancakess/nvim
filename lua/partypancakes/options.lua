@@ -69,6 +69,8 @@ vim.opt.confirm = true
 
 vim.g.have_nerd_font = true
 
+-- Disable resize of windows on change (window open-close)
+vim.opt.equalalways = false
 
 -- Global variable to track format-on-save state
 vim.g.format_on_save_enabled = false
