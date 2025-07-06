@@ -1,4 +1,5 @@
 return {
+    -- Copilot Completion
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
@@ -26,15 +27,10 @@ return {
             })
         end,
     },
-    {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-            require("copilot_cmp").setup({
-            })
-        end
-    },
+    { "partypancakess/blink-cmp-copilot" },
 
 
+    -- Copilot Chat
     {
         "olimorris/codecompanion.nvim",
         opts = {},

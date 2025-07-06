@@ -10,6 +10,11 @@ local theme_opts = {
                 LineNr = { fg = '#969696' }, -- Make line numbers more visible
 
                 CursorLineNr = { bg = '#2F3447', style = { "bold" } },
+
+                -- Blink Completion Menu
+                BlinkCmpMenu = { bg = "#282c3d" },
+                BlinkCmpDoc = { bg = "#282c3d" },
+                BlinkCmpSignatureHelp = { bg = "#282c3d" },
             }
         end,
         transparent_background = default_transparency
