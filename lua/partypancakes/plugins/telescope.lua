@@ -97,7 +97,8 @@ return {
 			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "find diagnostics" })
 
 			-- Extra mappings
-			-- vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find Resume old search' })
+			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Find Resume old search" })
+
 			vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = "Find Recent Files by name" })
 			vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find document symbols" })
 			vim.keymap.set("n", "<leader>f/", function()
