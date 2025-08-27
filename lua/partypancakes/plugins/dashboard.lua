@@ -5,7 +5,28 @@ local logo = require("partypancakes.resources.art.chuck1")
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "dashboard",
 	callback = function()
-		vim.opt_local.cursorline = true
+		-- Use defer to ensure dashboard is fully loaded
+		vim.defer_fn(function()
+			-- Enable cursorline for dashboard
+			vim.wo.cursorline = true
+
+			-- Ensure CursorLine highlight is visible
+			local hl = vim.api.nvim_get_hl(0, { name = "CursorLine" })
+			if not hl.bg then
+				vim.api.nvim_set_hl(0, "CursorLine", { bg = "#2a2a2a" })
+			end
+
+			-- Force a redraw to ensure the highlight is applied
+			vim.cmd("redraw")
+		end, 50)
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufLeave", {
+	pattern = "dashboard",
+	callback = function()
+		-- Turn off cursorline when leaving dashboard
+		vim.wo.cursorline = false
 	end,
 })
 
