@@ -1,11 +1,11 @@
 -- Theme configuration is done here as a variable instead of in the return,
 -- so that it can be used in the function SetTheme() below, for toggling transparency.
-local default_transparency = true -- Set Transparency off/on as default
-local default_focus = false -- true: Set Transparency off for out-of-focus windows only
+local current_transparency = true -- Set Transparency off/on as default
+local current_focus = false -- true: Set Transparency off for out-of-focus windows only
 
 local theme_opts = {
 	catppuccin = {
-		custom_highlights = function()
+		custom_highlights = function(colors)
 			return {
 				LineNr = { fg = "#969696" }, -- Make line numbers more visible
 
@@ -17,18 +17,18 @@ local theme_opts = {
 				BlinkCmpSignatureHelp = { bg = "#282c3d" },
 			}
 		end,
-		transparent_background = default_transparency,
+		transparent_background = current_transparency,
 	},
 	gruvbox = {
-		transparent_mode = default_transparency,
+		transparent_mode = current_transparency,
 	},
 	tokyonight = {
-		transparent = default_transparency,
+		transparent = current_transparency,
 	},
 	["rose-pine"] = {
 		styles = {
 			italic = false,
-			transparency = default_transparency,
+			transparency = current_transparency,
 		},
 	},
 }
@@ -44,32 +44,48 @@ function SetTheme(color)
 	else
 		vim.cmd.colorscheme("gruvbox")
 	end
+
+	-- Apply floating window transparency if enabled
+	if current_transparency then
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+	end
 end
 
 local function toggle_theme_transparency()
 	local scheme = vim.g.colors_name or ""
 
-	theme_opts.catppuccin.transparent_background = not theme_opts.catppuccin.transparent_background
+	current_transparency = not current_transparency
+
+	theme_opts.catppuccin.transparent_background = current_transparency
+	theme_opts.gruvbox.transparent_mode = current_transparency
+	theme_opts.tokyonight.transparent = current_transparency
+	theme_opts["rose-pine"].styles.transparency = current_transparency
+
 	require("catppuccin").setup(theme_opts.catppuccin)
-	theme_opts.gruvbox.transparent_mode = not theme_opts.gruvbox.transparent_mode
 	require("gruvbox").setup(theme_opts.gruvbox)
-	theme_opts.tokyonight.transparent = not theme_opts.tokyonight.transparent
 	require("tokyonight").setup(theme_opts.tokyonight)
-	theme_opts["rose-pine"].styles.transparency = not theme_opts["rose-pine"].styles.transparency
 	require("rose-pine").setup(theme_opts["rose-pine"])
 
 	-- reapply exactly the same colorscheme + variant of current
 	vim.cmd.colorscheme(scheme)
+
+	-- Apply or remove floating window transparency based on new state
+	if current_transparency then
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+	else
+		-- Reset to default when transparency is disabled (theme-specific defaults would apply)
+		vim.api.nvim_set_hl(0, "NormalFloat", {})
+	end
 end
 
 -- Make unfocused windows non-transparent / or / all windows' transparency are the same
 local function toggle_focus_transparency()
-	default_focus = not default_focus
+	current_focus = not current_focus
 
-	theme_opts.gruvbox.transparent_mode = not default_focus
-	theme_opts["rose-pine"].styles.transparency = not default_focus
-	theme_opts.tokyonight.transparent = not default_focus
-	theme_opts.catppuccin.transparent_background = not default_focus
+	theme_opts.gruvbox.transparent_mode = not current_focus
+	theme_opts["rose-pine"].styles.transparency = not current_focus
+	theme_opts.tokyonight.transparent = not current_focus
+	theme_opts.catppuccin.transparent_background = not current_focus
 
 	require("catppuccin").setup(theme_opts.catppuccin)
 	require("gruvbox").setup(theme_opts.gruvbox)
@@ -80,9 +96,9 @@ local function toggle_focus_transparency()
 	local scheme = vim.g.colors_name or ""
 	vim.cmd.colorscheme(scheme)
 
-	if default_focus then
-		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+	if current_focus then
+		vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 	end
 end
 
@@ -120,8 +136,8 @@ return {
 		config = function()
 			require("catppuccin").setup(theme_opts.catppuccin)
 			SetTheme()
-			if default_focus then
-				default_focus = false
+			if current_focus then
+				current_focus = false
 				toggle_focus_transparency()
 			end
 		end,
