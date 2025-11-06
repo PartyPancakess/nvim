@@ -85,6 +85,9 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader><leader>", "<cmd>w<CR>", { desc = "Save file" })
 vim.keymap.set("n", "<C-q>", "<cmd>q<CR>", { desc = "Quit Buffer" })
 
+-- Toggle case of word under cursor
+vim.keymap.set("n", "<leader>cl", Toggle_word_case, { desc = "Toggle case of word under cursor" })
+
 -- Reveal current file in finder
 vim.api.nvim_create_user_command("Rfinder", function()
 	local path = vim.api.nvim_buf_get_name(0)

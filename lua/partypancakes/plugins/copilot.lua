@@ -23,7 +23,7 @@ return {
                     cvs = false,
                     ["."] = false,
                 },
-                copilot_model = "GPT-4.1",
+                copilot_model = "gpt-41-copilot",
             })
         end,
     },

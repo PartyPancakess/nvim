@@ -48,5 +48,10 @@ return {
 		vim.keymap.set("n", "<leader>Gf", function()
 			vim.cmd("DiffviewFileHistory %")
 		end, { desc = "Git current File History" })
+
+		-- Compare 2 different splits
+		vim.keymap.set("n", "<leader>Gd", function()
+			vim.cmd("windo diffthis")
+		end, { desc = "Git History" })
 	end,
 }
