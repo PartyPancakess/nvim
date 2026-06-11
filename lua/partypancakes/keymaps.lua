@@ -80,6 +80,14 @@ vim.keymap.set(
 	{ desc = "Log Error" }
 )
 
+-- Scratch buffer in vertical split (temp notes, not saved)
+vim.keymap.set("n", "<C-w>N", function()
+	vim.cmd("vnew")
+	vim.bo.buftype = "nofile"
+	vim.bo.bufhidden = "wipe"
+	vim.bo.swapfile = false
+end, { desc = "New scratch buffer in vsplit" })
+
 -- Random Useful Stuff ----------------------------
 
 vim.keymap.set("n", "<leader><leader>", "<cmd>w<CR>", { desc = "Save file" })

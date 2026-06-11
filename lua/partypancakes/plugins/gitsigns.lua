@@ -39,7 +39,23 @@ return {
 					--     end
 					-- end)
 
-					map("n", "<leader>Gl", gitsigns.preview_hunk, { desc = "File history for the current hunk" })
+					map("n", "<leader>Gl", function()
+						local blame = vim.b.gitsigns_blame_line_dict
+						if not blame or not blame.sha or blame.sha == "0000000000000000000000000000000000000000" then
+							vim.notify("No commit for this line", vim.log.levels.WARN)
+							return
+						end
+						gitsigns.diffthis(blame.sha .. "^")
+					end, { desc = "Diff against parent of blame commit" })
+					-- map("n", "<leader>Gl", gitsigns.preview_hunk, { desc = "File history for the current (uncommitted) hunk" })
+					map("n", "<leader>GL", function()
+						local blame = vim.b.gitsigns_blame_line_dict
+						if blame and blame.sha and blame.sha ~= "0000000000000000000000000000000000000000" then
+							vim.cmd("DiffviewOpen " .. blame.sha .. "^.." .. blame.sha)
+						else
+							vim.notify("No commit for this line", vim.log.levels.WARN)
+						end
+					end, { desc = "View commit diff for current line" })
 
 					-- Actions
 					map("n", "<leader>Gr", gitsigns.reset_hunk, { desc = "Reset Hunk" })

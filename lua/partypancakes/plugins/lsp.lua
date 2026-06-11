@@ -32,6 +32,49 @@ return {
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities(nil, true)
 
+			-- Suppress noisy TypeScript Server Error notifications
+			vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
+				if result.message:match("TypeScript Server Error") then
+					return
+				end
+				vim.notify(result.message, vim.lsp.protocol.MessageType[result.type])
+			end
+
+			-- Configure LSP servers BEFORE mason-lspconfig (automatic_enable needs these)
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+			})
+
+			local vue_language_server_path = vim.fn.stdpath("data")
+				.. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+
+			vim.lsp.config("ts_ls", {
+				capabilities = capabilities,
+				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+				init_options = {
+					plugins = {
+						{
+							name = "@vue/typescript-plugin",
+							location = vue_language_server_path,
+							languages = { "vue" },
+						},
+					},
+				},
+				settings = {
+					typescript = { format = { enable = false } },
+					javascript = { format = { enable = false } },
+				},
+			})
+
+			vim.lsp.config("vue_ls", {
+				capabilities = capabilities,
+				init_options = {
+					typescript = {
+						tsdk = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib",
+					},
+				},
+			})
+
 			require("mason-lspconfig").setup({
 				automatic_enable = true,
 				ensure_installed = {
@@ -39,18 +82,16 @@ return {
 					"rust_analyzer",
 					"gopls",
 					"ts_ls",
+					"vue_ls",
 				},
 			})
 
-			vim.lsp.config("*", {
-				capabilities = capabilities,
-			})
-
-			vim.lsp.config("ts_ls", {
-				capabilities = capabilities,
-				settings = {
-					typescript = { format = { enable = false } },
-					javascript = { format = { enable = false } },
+			require("mason-tool-installer").setup({
+				ensure_installed = {
+					"prettier",
+					"eslint_d",
+					"stylua",
+					"biome",
 				},
 			})
 

@@ -1,100 +1,152 @@
--- Theme configuration is done here as a variable instead of in the return,
--- so that it can be used in the function SetTheme() below, for toggling transparency.
-local current_transparency = true -- Set Transparency off/on as default
-local current_focus = false -- true: Set Transparency off for out-of-focus windows only
+local current_transparency = true
+local current_focus = false
 
-local theme_opts = {
-	catppuccin = {
-		custom_highlights = function(colors)
+-- Theme registry: Add new themes here!
+local THEMES = {
+	{
+		name = "catppuccin-macchiato",
+		plugin = "catppuccin",
+		repo = "catppuccin/nvim",
+		key = "<leader>T0",
+		desc = "Catppuccin Macchiato",
+		opts = function(transparent)
 			return {
-				LineNr = { fg = "#969696" }, -- Make line numbers more visible
-
-				CursorLineNr = { bg = "#2F3447", style = { "bold" } },
-
-				-- Blink Completion Menu
-				BlinkCmpMenu = { bg = "#282c3d" },
-				BlinkCmpDoc = { bg = "#282c3d" },
-				BlinkCmpSignatureHelp = { bg = "#282c3d" },
+				custom_highlights = function(colors)
+					return {
+						LineNr = { fg = "#969696" },
+						CursorLineNr = { bg = "#2F3447", style = { "bold" } },
+						BlinkCmpMenu = { bg = "#282c3d" },
+						BlinkCmpDoc = { bg = "#282c3d" },
+						BlinkCmpSignatureHelp = { bg = "#282c3d" },
+					}
+				end,
+				transparent_background = transparent,
 			}
 		end,
-		transparent_background = current_transparency,
 	},
-	gruvbox = {
-		transparent_mode = current_transparency,
+	{
+		name = "rose-pine-moon",
+		plugin = "rose-pine",
+		repo = "rose-pine/neovim",
+		key = "<leader>T1",
+		desc = "Rose Pine Moon",
+		opts = function(transparent)
+			return {
+				variant = "moon",
+				styles = {
+					italic = false,
+					transparency = transparent,
+				},
+			}
+		end,
 	},
-	tokyonight = {
-		transparent = current_transparency,
+	{
+		name = "tokyonight-moon",
+		plugin = "tokyonight",
+		repo = "folke/tokyonight.nvim",
+		key = "<leader>T2",
+		desc = "TokyoNight Moon",
+		opts = function(transparent)
+			return {
+				transparent = transparent,
+				styles = {
+					sidebars = transparent and "transparent" or "dark",
+					floats = transparent and "transparent" or "dark",
+				},
+			}
+		end,
 	},
-	["rose-pine"] = {
-		styles = {
-			italic = false,
-			transparency = current_transparency,
-		},
+	{
+		name = "gruvbox",
+		plugin = "gruvbox",
+		repo = "ellisonleao/gruvbox.nvim",
+		key = "<leader>T3",
+		desc = "Gruvbox",
+		opts = function(transparent)
+			return {
+				transparent_mode = transparent,
+			}
+		end,
 	},
 }
 
-function SetTheme(color)
-	color = color or 0
-	if color == 0 then
-		vim.cmd.colorscheme("catppuccin-macchiato")
-	elseif color == 1 then
-		vim.cmd.colorscheme("rose-pine-moon")
-	elseif color == 2 then
-		vim.cmd.colorscheme("tokyonight-moon")
-	else
-		vim.cmd.colorscheme("gruvbox")
+-- Get current theme config
+local function get_current_theme()
+	local scheme = vim.g.colors_name or ""
+	for _, theme in ipairs(THEMES) do
+		if theme.name == scheme then
+			return theme
+		end
 	end
+	return nil
+end
 
-	-- Apply floating window transparency if enabled
-	if current_transparency then
-		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+-- Apply theme with current transparency settings
+local function apply_theme(theme_name)
+	for _, theme in ipairs(THEMES) do
+		if theme.name == theme_name then
+			local opts = theme.opts(current_transparency)
+			require(theme.plugin).setup(opts)
+			vim.cmd.colorscheme(theme.name)
+
+			-- Apply floating window transparency if enabled
+			if current_transparency then
+				vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+
+				-- Rose-pine specific: manually clear backgrounds
+				if theme.plugin == "rose-pine" then
+					vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+					vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+				end
+			end
+			return
+		end
 	end
 end
 
+function SetTheme(theme_name)
+	apply_theme(theme_name)
+end
+
 local function toggle_theme_transparency()
-	local scheme = vim.g.colors_name or ""
+	local theme = get_current_theme()
+	if not theme then
+		return
+	end
 
 	current_transparency = not current_transparency
 
-	theme_opts.catppuccin.transparent_background = current_transparency
-	theme_opts.gruvbox.transparent_mode = current_transparency
-	theme_opts.tokyonight.transparent = current_transparency
-	theme_opts["rose-pine"].styles.transparency = current_transparency
+	-- Only reconfigure the current theme
+	local opts = theme.opts(current_transparency)
+	require(theme.plugin).setup(opts)
+	vim.cmd.colorscheme(theme.name)
 
-	require("catppuccin").setup(theme_opts.catppuccin)
-	require("gruvbox").setup(theme_opts.gruvbox)
-	require("tokyonight").setup(theme_opts.tokyonight)
-	require("rose-pine").setup(theme_opts["rose-pine"])
-
-	-- reapply exactly the same colorscheme + variant of current
-	vim.cmd.colorscheme(scheme)
-
-	-- Apply or remove floating window transparency based on new state
+	-- Apply or remove floating window transparency
 	if current_transparency then
 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+
+		-- Rose-pine specific: manually clear backgrounds
+		if theme.plugin == "rose-pine" then
+			vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+			vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+		end
 	else
-		-- Reset to default when transparency is disabled (theme-specific defaults would apply)
 		vim.api.nvim_set_hl(0, "NormalFloat", {})
 	end
 end
 
--- Make unfocused windows non-transparent / or / all windows' transparency are the same
 local function toggle_focus_transparency()
+	local theme = get_current_theme()
+	if not theme then
+		return
+	end
+
 	current_focus = not current_focus
 
-	theme_opts.gruvbox.transparent_mode = not current_focus
-	theme_opts["rose-pine"].styles.transparency = not current_focus
-	theme_opts.tokyonight.transparent = not current_focus
-	theme_opts.catppuccin.transparent_background = not current_focus
-
-	require("catppuccin").setup(theme_opts.catppuccin)
-	require("gruvbox").setup(theme_opts.gruvbox)
-	require("tokyonight").setup(theme_opts.tokyonight)
-	require("rose-pine").setup(theme_opts["rose-pine"])
-
-	-- reapply exactly the same colorscheme + variant of current
-	local scheme = vim.g.colors_name or ""
-	vim.cmd.colorscheme(scheme)
+	-- Only reconfigure the current theme
+	local opts = theme.opts(not current_focus)
+	require(theme.plugin).setup(opts)
+	vim.cmd.colorscheme(theme.name)
 
 	if current_focus then
 		vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
@@ -102,23 +154,12 @@ local function toggle_focus_transparency()
 	end
 end
 
--- Keymaps to switch themes
-
-vim.keymap.set("n", "<leader>T0", function()
-	SetTheme(0)
-end, { desc = "Set Catppuccin Macchiato", silent = true })
-
-vim.keymap.set("n", "<leader>T1", function()
-	SetTheme(1)
-end, { desc = "Set Rose Pine Moon", silent = true })
-
-vim.keymap.set("n", "<leader>T2", function()
-	SetTheme(2)
-end, { desc = "Set TokyoNight Moon", silent = true })
-
-vim.keymap.set("n", "<leader>T3", function()
-	SetTheme(3)
-end, { desc = "Set Gruvbox", silent = true })
+-- Generate keymaps dynamically
+for _, theme in ipairs(THEMES) do
+	vim.keymap.set("n", theme.key, function()
+		SetTheme(theme.name)
+	end, { desc = "Set " .. theme.desc, silent = true })
+end
 
 -- Toggle Opaque/Transparent
 vim.keymap.set("n", "<leader>TT", function()
@@ -129,37 +170,28 @@ vim.keymap.set("n", "<leader>Tf", function()
 	toggle_focus_transparency()
 end, { desc = "Toggle unfocused window transparency" })
 
-return {
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
+-- Build plugin specs dynamically from THEMES
+local plugins = {}
+local default_theme = THEMES[1].name
+
+for _, theme in ipairs(THEMES) do
+	table.insert(plugins, {
+		theme.repo,
+		name = theme.plugin,
 		config = function()
-			require("catppuccin").setup(theme_opts.catppuccin)
-			SetTheme()
-			if current_focus then
-				current_focus = false
-				toggle_focus_transparency()
+			local opts = theme.opts(current_transparency)
+			require(theme.plugin).setup(opts)
+
+			-- Apply default theme on first load
+			if theme.name == default_theme then
+				SetTheme(theme.name)
+				if current_focus then
+					current_focus = false
+					toggle_focus_transparency()
+				end
 			end
 		end,
-	},
-	{
-		"ellisonleao/gruvbox.nvim",
-		name = "gruvbox",
-		config = function()
-			require("gruvbox").setup(theme_opts.gruvbox)
-		end,
-	},
-	{
-		"folke/tokyonight.nvim",
-		config = function()
-			require("tokyonight").setup(theme_opts.tokyonight)
-		end,
-	},
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
-		config = function()
-			require("rose-pine").setup(theme_opts["rose-pine"])
-		end,
-	},
-}
+	})
+end
+
+return plugins

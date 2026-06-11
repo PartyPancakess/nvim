@@ -8,7 +8,8 @@ return {
                 ensure_installed = {
                     "vim", "vimdoc", "lua", 'luadoc', "bash", 'diff',
                     'html', 'markdown', 'markdown_inline', 'query', "jsdoc",
-                    "javascript", "typescript", "c", "rust", "go",
+                    "javascript", "typescript", "c", "rust", "go", "vue",
+                    "css", "scss",
                 },
 
                 -- Install parsers synchronously (only applied to `ensure_installed`)

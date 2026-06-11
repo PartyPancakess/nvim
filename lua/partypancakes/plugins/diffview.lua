@@ -20,6 +20,26 @@ return {
 					["D"] = function()
 						require("diffview.actions").restore_entry()
 					end,
+					["s"] = function()
+						require("diffview.actions").toggle_stage_entry()
+					end,
+				},
+				file_panel = {
+					["s"] = function()
+						require("diffview.actions").toggle_stage_entry()
+					end,
+					["S"] = function()
+						require("diffview.actions").stage_all()
+					end,
+					["U"] = function()
+						require("diffview.actions").unstage_all()
+					end,
+					["D"] = function()
+						require("diffview.actions").restore_entry()
+					end,
+					["X"] = function()
+						require("diffview.actions").restore_entry()
+					end,
 				},
 			},
 		})
